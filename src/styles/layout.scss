@@ -1,0 +1,39 @@
+@mixin bg-image($url) {
+  background-image: url($url);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+@mixin bg() {
+	background-position: center top;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+/* 文字溢出处理 */
+@mixin line {
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+@for $i from 2 through 5 {
+  .line-#{$i} {
+    @include line;
+    -webkit-line-clamp: $i;
+  }
+}
+.line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin fixed() {
+	position: fixed;
+	left:0;
+	right:0;
+	bottom:0;
+	top:0
+}
