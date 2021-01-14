@@ -14,6 +14,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // 如果title是固定的，写在public/index.html的title标签，这里需要注释
   if (to.meta.title) document.title = to.meta.title
   next()
 })
