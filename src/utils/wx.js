@@ -28,6 +28,10 @@ class Wx {
     return !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/) // ios终端
   }
 
+  isNeedConfig() {
+    return !(this.isIos() && this.isConfig)
+  }
+
   /*
   * debug 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
   * appId 必填，公众号的唯一标识
@@ -41,7 +45,7 @@ class Wx {
       // ios系统一次会话只需要配置一次
       // console.log('是否ios操作系统', this.isIos())
       // console.log('是否配置', this.isConfig)
-      if (this.isIos() && this.isConfig) {
+      if (!this.isNeedConfig()) {
         resolve()
       } else {
         this.wx.config(options)
@@ -59,10 +63,14 @@ class Wx {
   }
 
   share(options) {
-    wx.onMenuShareTimeline(options)
-    wx.onMenuShareAppMessage(options)
-    wx.onMenuShareQQ(options)
-    wx.onMenuShareWeibo(options)
+    this.wx.onMenuShareTimeline(options)
+    this.wx.onMenuShareAppMessage(options)
+    this.wx.onMenuShareQQ(options)
+    this.wx.onMenuShareWeibo(options)
+  }
+
+  hideMenuItems(menuList) {
+    this.wx.hideMenuItems({ menuList })
   }
 }
 

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Toast } from 'vant'
 import build from '@/config'
+import qs from 'qs'
 // import store from '@/project/common/store'
 
 /*
@@ -26,6 +27,13 @@ instance.interceptors.request.use((config) => {
     // config.headers.authority = '1234567890'
     config.headers.authority = '123456789'
   }
+
+  // 如果后端POST请求是用表单接收，qs转
+  // 例如 珠实荟
+  if (config.method === 'put' || config.method === 'post') {
+    config.data = qs.stringify(config.data)
+  }
+
   return config
 }, error => {
   return Promise.reject(error)
@@ -40,6 +48,7 @@ instance.interceptors.response.use(({ data }) => {
       Toast('登录失效')
       setTimeout(() => {
         // store.dispatch('app/reload')
+        location.reload()
       }, 1000)
     }
   } else if (data.status === 403) { // 403是微信接口报错所用的一个特定code，接受catch时与400，401，402不一样，403返回的是一个对象
